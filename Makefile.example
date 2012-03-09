@@ -1,0 +1,39 @@
+FLAGS = -I stdlib/ -I mydir1/ -I mydir2/ -I mydir3/
+CAMLEXCC = ocamlexcc
+CAMLEXCL = ocamlexcl
+
+
+# ----------------------------------------------------------------------------
+
+STDLIB = stdlib/pervasives.cme stdlib/list.cme stdlib/char.cme \
+	stdlib/string.cme stdlib/sort.cme \
+	stdlib/array.cme stdlib/hashtbl.cme \
+	stdlib/marshal.cme stdlib/obj.cme stdlib/printf.cme \
+	stdlib/sys.cme stdlib/arg.cme  \
+	stdlib/filename.cme stdlib/gc.cme \
+	stdlib/stream.cme stdlib/format.cme \
+	stdlib/lexing.cme stdlib/parsing.cme
+
+MYCMES = mydir1/mfile1.cme mydir2/mfile2.cme mydir3/myfile3.cme
+
+
+# ----------------------------------------------------------------------------
+
+MYSRCS = mydir1/mfile1.ml mydir2/mfile2.ml mydir3/myfile3.ml
+
+all: $(STDLIB) $(MYCMES)
+	$(CAMLEXCL) $(FLAGS) $(STDLIB) $(MYCMES)
+
+.SUFFIXES: .ml .mli .cme
+
+.ml.cme:
+	$(CAMLEXCC) $(FLAGS) $<
+
+.mli.cme:
+	$(CAMLEXCC) $(FLAGS) $<
+
+
+clean:
+	rm -f mydir1/*.cme
+	rm -f mydir2/*.cme
+	rm -f mydir3/*.cme

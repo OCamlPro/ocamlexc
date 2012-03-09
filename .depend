@@ -1,0 +1,291 @@
+batch/main.cmo: typing/typecore.cmi parsing/syntaxerr.cmo \
+    typing/substract.cmi typing/stdlibpath.cmo typing/path.cmi \
+    parsing/parse.cmo typing/outputp.cmo typing/modscope.cmi \
+    parsing/lexer.cmo typing/inputpt.cmo typing/infermod.cmo \
+    typing/infercore.cmi typing/ident.cmi typing/files.cmo \
+    typing/extendhandler.cmi typing/error.cmo typing/envtype.cmi \
+    typing/envscope.cmi typing/corescope.cmi
+batch/main.cmx: typing/typecore.cmx parsing/syntaxerr.cmx \
+    typing/substract.cmx typing/stdlibpath.cmx typing/path.cmx \
+    parsing/parse.cmx typing/outputp.cmx typing/modscope.cmx \
+    parsing/lexer.cmx typing/inputpt.cmx typing/infermod.cmx \
+    typing/infercore.cmx typing/ident.cmx typing/files.cmx \
+    typing/extendhandler.cmx typing/error.cmx typing/envtype.cmx \
+    typing/envscope.cmx typing/corescope.cmx
+interface/global.cmo: typing/typedtree.cmi typing/path.cmi
+interface/global.cmx: typing/typedtree.cmi typing/path.cmx
+interface/main.cmo: typing/typedtree.cmi typing/typecore.cmi \
+    interface/tkprinttypes.cmi typing/stdlibpath.cmo \
+    interface/preferences.cmo typing/path.cmi interface/modselector.cmo \
+    typing/inputpt.cmo typing/ident.cmi interface/global.cmo \
+    typing/freevars.cmo typing/files.cmo typing/envtype.cmi \
+    typing/envscope.cmi
+interface/main.cmx: typing/typedtree.cmi typing/typecore.cmx \
+    interface/tkprinttypes.cmx typing/stdlibpath.cmx \
+    interface/preferences.cmx typing/path.cmx interface/modselector.cmx \
+    typing/inputpt.cmx typing/ident.cmx interface/global.cmx \
+    typing/freevars.cmx typing/files.cmx typing/envtype.cmx \
+    typing/envscope.cmx
+interface/modselector.cmo: interface/rootwindow.cmo interface/preferences.cmo \
+    typing/path.cmi typing/ident.cmi interface/global.cmo
+interface/modselector.cmx: interface/rootwindow.cmx interface/preferences.cmx \
+    typing/path.cmx typing/ident.cmx interface/global.cmx
+interface/preferences.cmo:
+interface/preferences.cmx:
+interface/rootwindow.cmo: interface/tkprintmod.cmi interface/tklowprint.cmo \
+    interface/tkloadsrc.cmo interface/printcontext.cmi \
+    interface/preferences.cmo typing/path.cmi interface/global.cmo \
+    typing/envtype.cmi
+interface/rootwindow.cmx: interface/tkprintmod.cmx interface/tklowprint.cmx \
+    interface/tkloadsrc.cmx interface/printcontext.cmi \
+    interface/preferences.cmx typing/path.cmx interface/global.cmx \
+    typing/envtype.cmx
+interface/tkloadsrc.cmo: typing/typedtree.cmi typing/typecore.cmi \
+    interface/tkprinttypes.cmi interface/tklowprint.cmo typing/stdlibpath.cmo \
+    interface/printcontext.cmi parsing/location.cmo
+interface/tkloadsrc.cmx: typing/typedtree.cmi typing/typecore.cmx \
+    interface/tkprinttypes.cmx interface/tklowprint.cmx typing/stdlibpath.cmx \
+    interface/printcontext.cmi parsing/location.cmx
+interface/tklowprint.cmo: interface/printcontext.cmi
+interface/tklowprint.cmx: interface/printcontext.cmi
+interface/tkprintmod.cmo: typing/typedtree.cmi interface/tkprinttypes.cmi \
+    interface/printcontext.cmi typing/printbasic.cmi typing/ident.cmi \
+    interface/tkprintmod.cmi
+interface/tkprintmod.cmx: typing/typedtree.cmi interface/tkprinttypes.cmx \
+    interface/printcontext.cmi typing/printbasic.cmx typing/ident.cmx \
+    interface/tkprintmod.cmi
+interface/tkprinttypes.cmo: typing/typedtree.cmi typing/typecore.cmi \
+    interface/tklowprint.cmo interface/printcontext.cmi typing/printbasic.cmi \
+    typing/path.cmi typing/ident.cmi interface/tkprinttypes.cmi
+interface/tkprinttypes.cmx: typing/typedtree.cmi typing/typecore.cmx \
+    interface/tklowprint.cmx interface/printcontext.cmi typing/printbasic.cmx \
+    typing/path.cmx typing/ident.cmx interface/tkprinttypes.cmi
+interface/printcontext.cmi: typing/typecore.cmi
+interface/tkprintmod.cmi: typing/typedtree.cmi interface/printcontext.cmi
+interface/tkprinttypes.cmi: typing/typedtree.cmi typing/typecore.cmi \
+    interface/printcontext.cmi typing/ident.cmi
+link/main.cmo: typing/typedtree.cmi typing/typecore.cmi typing/stdlibpath.cmo \
+    typing/printmod.cmi typing/path.cmi typing/inputpt.cmo typing/ident.cmi \
+    typing/freevars.cmo typing/error.cmo typing/envtype.cmi \
+    typing/envscope.cmi
+link/main.cmx: typing/typedtree.cmi typing/typecore.cmx typing/stdlibpath.cmx \
+    typing/printmod.cmx typing/path.cmx typing/inputpt.cmx typing/ident.cmx \
+    typing/freevars.cmx typing/error.cmx typing/envtype.cmx \
+    typing/envscope.cmx
+parsing/asttypes.cmo: parsing/asttypes.cmi
+parsing/asttypes.cmx: parsing/asttypes.cmi
+parsing/lexer.cmo: parsing/parser.cmi utils/misc.cmo
+parsing/lexer.cmx: parsing/parser.cmx utils/misc.cmx
+parsing/linenum.cmo: utils/misc.cmo
+parsing/linenum.cmx: utils/misc.cmx
+parsing/location.cmo: utils/terminfo.cmo parsing/linenum.cmo
+parsing/location.cmx: utils/terminfo.cmx parsing/linenum.cmx
+parsing/longident.cmo:
+parsing/longident.cmx:
+parsing/parse.cmo: parsing/syntaxerr.cmo parsing/parser.cmi \
+    parsing/location.cmo parsing/lexer.cmo
+parsing/parse.cmx: parsing/syntaxerr.cmx parsing/parser.cmx \
+    parsing/location.cmx parsing/lexer.cmx
+parsing/parser.cmo: parsing/syntaxerr.cmo parsing/pstream.cmo \
+    parsing/parsetree.cmi parsing/longident.cmo parsing/location.cmo \
+    utils/clflags.cmo parsing/asttypes.cmi parsing/parser.cmi
+parsing/parser.cmx: parsing/syntaxerr.cmx parsing/pstream.cmx \
+    parsing/parsetree.cmi parsing/longident.cmx parsing/location.cmx \
+    utils/clflags.cmx parsing/asttypes.cmx parsing/parser.cmi
+parsing/pstream.cmo: parsing/parsetree.cmi parsing/longident.cmo \
+    parsing/location.cmo parsing/asttypes.cmi
+parsing/pstream.cmx: parsing/parsetree.cmi parsing/longident.cmx \
+    parsing/location.cmx parsing/asttypes.cmx
+parsing/syntaxerr.cmo: parsing/location.cmo
+parsing/syntaxerr.cmx: parsing/location.cmx
+parsing/asttypes.cmi:
+parsing/parser.cmi: parsing/parsetree.cmi
+parsing/parsetree.cmi: parsing/longident.cmo parsing/location.cmo \
+    parsing/asttypes.cmi
+toplevel/main-for-bootstrap.cmo: typing/typecore.cmi typing/topscope.cmi \
+    parsing/syntaxerr.cmo typing/substract.cmi typing/stdlibpath.cmo \
+    typing/path.cmi parsing/parse.cmo parsing/lexer.cmo typing/inputpt.cmo \
+    typing/infermod.cmo typing/infercore.cmi typing/ident.cmi \
+    typing/extendhandler.cmi typing/envtype.cmi typing/envscope.cmi \
+    typing/corescope.cmi
+toplevel/main-for-bootstrap.cmx: typing/typecore.cmx typing/topscope.cmx \
+    parsing/syntaxerr.cmx typing/substract.cmx typing/stdlibpath.cmx \
+    typing/path.cmx parsing/parse.cmx parsing/lexer.cmx typing/inputpt.cmx \
+    typing/infermod.cmx typing/infercore.cmx typing/ident.cmx \
+    typing/extendhandler.cmx typing/envtype.cmx typing/envscope.cmx \
+    typing/corescope.cmx
+toplevel/main.cmo: typing/typecore.cmi typing/topscope.cmi \
+    parsing/syntaxerr.cmo typing/substract.cmi typing/stdlibpath.cmo \
+    typing/printtypes.cmi typing/printscope.cmi typing/printparse.cmi \
+    typing/printmod.cmi typing/path.cmi parsing/parse.cmo parsing/lexer.cmo \
+    typing/inputpt.cmo typing/infermod.cmo typing/infercore.cmi \
+    typing/ident.cmi typing/extendhandler.cmi typing/error.cmo \
+    typing/envtype.cmi typing/envscope.cmi typing/corescope.cmi
+toplevel/main.cmx: typing/typecore.cmx typing/topscope.cmx \
+    parsing/syntaxerr.cmx typing/substract.cmx typing/stdlibpath.cmx \
+    typing/printtypes.cmx typing/printscope.cmx typing/printparse.cmx \
+    typing/printmod.cmx typing/path.cmx parsing/parse.cmx parsing/lexer.cmx \
+    typing/inputpt.cmx typing/infermod.cmx typing/infercore.cmx \
+    typing/ident.cmx typing/extendhandler.cmx typing/error.cmx \
+    typing/envtype.cmx typing/envscope.cmx typing/corescope.cmx
+typing/corescope.cmo: typing/scopedtree.cmi typing/path.cmi \
+    parsing/parsetree.cmi typing/envscope.cmi parsing/asttypes.cmi \
+    typing/corescope.cmi
+typing/corescope.cmx: typing/scopedtree.cmi typing/path.cmx \
+    parsing/parsetree.cmi typing/envscope.cmx parsing/asttypes.cmx \
+    typing/corescope.cmi
+typing/envscope.cmo: typing/stdlibpath.cmo typing/path.cmi \
+    parsing/longident.cmo typing/ident.cmi typing/envscope.cmi
+typing/envscope.cmx: typing/stdlibpath.cmx typing/path.cmx \
+    parsing/longident.cmx typing/ident.cmx typing/envscope.cmi
+typing/envtype.cmo: typing/typedtree.cmi typing/typecore.cmi typing/path.cmi \
+    typing/ident.cmi typing/envtype.cmi
+typing/envtype.cmx: typing/typedtree.cmi typing/typecore.cmx typing/path.cmx \
+    typing/ident.cmx typing/envtype.cmi
+typing/error.cmo: parsing/syntaxerr.cmo typing/printtypes.cmi typing/path.cmi \
+    parsing/location.cmo parsing/lexer.cmo typing/envtype.cmi \
+    typing/envscope.cmi
+typing/error.cmx: parsing/syntaxerr.cmx typing/printtypes.cmx typing/path.cmx \
+    parsing/location.cmx parsing/lexer.cmx typing/envtype.cmx \
+    typing/envscope.cmx
+typing/extendhandler.cmo: parsing/parsetree.cmi parsing/longident.cmo \
+    parsing/location.cmo typing/extendhandler.cmi
+typing/extendhandler.cmx: parsing/parsetree.cmi parsing/longident.cmx \
+    parsing/location.cmx typing/extendhandler.cmi
+typing/files.cmo:
+typing/files.cmx:
+typing/freevars.cmo: typing/typedtree.cmi typing/typecore.cmi
+typing/freevars.cmx: typing/typedtree.cmi typing/typecore.cmx
+typing/ident.cmo: typing/ident.cmi
+typing/ident.cmx: typing/ident.cmi
+typing/infercore.cmo: typing/typedtree.cmi typing/typecore.cmi \
+    typing/substract.cmi typing/scopedtree.cmi typing/printtypes.cmi \
+    typing/path.cmi typing/listextra.cmi typing/ident.cmi typing/files.cmo \
+    typing/envtype.cmi parsing/asttypes.cmi typing/infercore.cmi
+typing/infercore.cmx: typing/typedtree.cmi typing/typecore.cmx \
+    typing/substract.cmx typing/scopedtree.cmi typing/printtypes.cmx \
+    typing/path.cmx typing/listextra.cmx typing/ident.cmx typing/files.cmx \
+    typing/envtype.cmx parsing/asttypes.cmx typing/infercore.cmi
+typing/infermod.cmo: typing/typedtree.cmi typing/typecore.cmi \
+    typing/substmod.cmi typing/subst.cmi typing/scopedtree.cmi \
+    typing/path.cmi parsing/location.cmo typing/listextra.cmi \
+    typing/infercore.cmi typing/ident.cmi typing/envtype.cmi
+typing/infermod.cmx: typing/typedtree.cmi typing/typecore.cmx \
+    typing/substmod.cmx typing/subst.cmx typing/scopedtree.cmi \
+    typing/path.cmx parsing/location.cmx typing/listextra.cmx \
+    typing/infercore.cmx typing/ident.cmx typing/envtype.cmx
+typing/inputpt.cmo: typing/typedtree.cmi typing/stdlibpath.cmo \
+    typing/path.cmi typing/ident.cmi typing/freevars.cmo typing/files.cmo \
+    typing/envtype.cmi typing/envscope.cmi
+typing/inputpt.cmx: typing/typedtree.cmi typing/stdlibpath.cmx \
+    typing/path.cmx typing/ident.cmx typing/freevars.cmx typing/files.cmx \
+    typing/envtype.cmx typing/envscope.cmx
+typing/listextra.cmo: typing/listextra.cmi
+typing/listextra.cmx: typing/listextra.cmi
+typing/modscope.cmo: typing/scopedtree.cmi parsing/parsetree.cmi \
+    parsing/location.cmo typing/envscope.cmi typing/corescope.cmi \
+    typing/modscope.cmi
+typing/modscope.cmx: typing/scopedtree.cmi parsing/parsetree.cmi \
+    parsing/location.cmx typing/envscope.cmx typing/corescope.cmx \
+    typing/modscope.cmi
+typing/outputp.cmo: typing/typedtree.cmi typing/inputpt.cmo \
+    typing/freevars.cmo typing/files.cmo typing/envscope.cmi
+typing/outputp.cmx: typing/typedtree.cmi typing/inputpt.cmx \
+    typing/freevars.cmx typing/files.cmx typing/envscope.cmx
+typing/path.cmo: typing/ident.cmi typing/path.cmi
+typing/path.cmx: typing/ident.cmx typing/path.cmi
+typing/printbasic.cmo: parsing/longident.cmo parsing/asttypes.cmi \
+    typing/printbasic.cmi
+typing/printbasic.cmx: parsing/longident.cmx parsing/asttypes.cmx \
+    typing/printbasic.cmi
+typing/printmod.cmo: typing/typedtree.cmi typing/printtypes.cmi \
+    typing/printbasic.cmi typing/path.cmi typing/ident.cmi \
+    typing/printmod.cmi
+typing/printmod.cmx: typing/typedtree.cmi typing/printtypes.cmx \
+    typing/printbasic.cmx typing/path.cmx typing/ident.cmx \
+    typing/printmod.cmi
+typing/printparse.cmo: typing/printbasic.cmi parsing/parsetree.cmi \
+    typing/printparse.cmi
+typing/printparse.cmx: typing/printbasic.cmx parsing/parsetree.cmi \
+    typing/printparse.cmi
+typing/printscope.cmo: typing/scopedtree.cmi typing/printbasic.cmi \
+    typing/path.cmi typing/ident.cmi typing/printscope.cmi
+typing/printscope.cmx: typing/scopedtree.cmi typing/printbasic.cmx \
+    typing/path.cmx typing/ident.cmx typing/printscope.cmi
+typing/printtypes.cmo: typing/typedtree.cmi typing/typecore.cmi \
+    typing/printbasic.cmi typing/path.cmi typing/ident.cmi \
+    typing/printtypes.cmi
+typing/printtypes.cmx: typing/typedtree.cmi typing/typecore.cmx \
+    typing/printbasic.cmx typing/path.cmx typing/ident.cmx \
+    typing/printtypes.cmi
+typing/stdlibpath.cmo:
+typing/stdlibpath.cmx:
+typing/subst.cmo: typing/path.cmi typing/ident.cmi typing/subst.cmi
+typing/subst.cmx: typing/path.cmx typing/ident.cmx typing/subst.cmi
+typing/substcore.cmo: typing/subst.cmi typing/scopedtree.cmi \
+    typing/substcore.cmi
+typing/substcore.cmx: typing/subst.cmx typing/scopedtree.cmi \
+    typing/substcore.cmi
+typing/substmod.cmo: typing/substcore.cmi typing/subst.cmi \
+    typing/scopedtree.cmi typing/substmod.cmi
+typing/substmod.cmx: typing/substcore.cmx typing/subst.cmx \
+    typing/scopedtree.cmi typing/substmod.cmi
+typing/substract.cmo: typing/typecore.cmi typing/scopedtree.cmi \
+    typing/path.cmi typing/envtype.cmi parsing/asttypes.cmi \
+    typing/substract.cmi
+typing/substract.cmx: typing/typecore.cmx typing/scopedtree.cmi \
+    typing/path.cmx typing/envtype.cmx parsing/asttypes.cmx \
+    typing/substract.cmi
+typing/topscope.cmo: typing/scopedtree.cmi parsing/parsetree.cmi \
+    typing/modscope.cmi typing/envscope.cmi typing/topscope.cmi
+typing/topscope.cmx: typing/scopedtree.cmi parsing/parsetree.cmi \
+    typing/modscope.cmx typing/envscope.cmx typing/topscope.cmi
+typing/typecore.cmo: typing/path.cmi typing/ident.cmi typing/typecore.cmi
+typing/typecore.cmx: typing/path.cmx typing/ident.cmx typing/typecore.cmi
+typing/corescope.cmi: typing/scopedtree.cmi parsing/parsetree.cmi \
+    typing/ident.cmi typing/envscope.cmi parsing/asttypes.cmi
+typing/envscope.cmi: typing/path.cmi parsing/longident.cmo typing/ident.cmi
+typing/envtype.cmi: typing/typedtree.cmi typing/typecore.cmi typing/path.cmi \
+    typing/ident.cmi
+typing/extendhandler.cmi: parsing/parsetree.cmi
+typing/ident.cmi:
+typing/infercore.cmi: typing/typedtree.cmi typing/typecore.cmi \
+    typing/scopedtree.cmi typing/path.cmi typing/ident.cmi \
+    parsing/asttypes.cmi
+typing/listextra.cmi:
+typing/modscope.cmi: typing/scopedtree.cmi parsing/parsetree.cmi \
+    typing/envscope.cmi
+typing/path.cmi: typing/ident.cmi
+typing/printbasic.cmi: parsing/longident.cmo parsing/asttypes.cmi
+typing/printmod.cmi: typing/typedtree.cmi
+typing/printparse.cmi: parsing/parsetree.cmi
+typing/printscope.cmi: typing/scopedtree.cmi typing/ident.cmi
+typing/printtypes.cmi: typing/typedtree.cmi typing/typecore.cmi \
+    typing/ident.cmi
+typing/scopedtree.cmi: typing/path.cmi parsing/location.cmo typing/ident.cmi \
+    parsing/asttypes.cmi
+typing/subst.cmi: typing/path.cmi typing/ident.cmi
+typing/substcore.cmi: typing/subst.cmi typing/scopedtree.cmi
+typing/substmod.cmi: typing/subst.cmi typing/scopedtree.cmi
+typing/substract.cmi: typing/typedtree.cmi typing/typecore.cmi \
+    typing/scopedtree.cmi typing/ident.cmi
+typing/topscope.cmi: typing/scopedtree.cmi parsing/parsetree.cmi \
+    typing/envscope.cmi
+typing/typecore.cmi: typing/path.cmi
+typing/typedtree.cmi: typing/typecore.cmi typing/scopedtree.cmi \
+    typing/path.cmi parsing/location.cmo typing/ident.cmi \
+    parsing/asttypes.cmi
+utils/ccomp.cmo: utils/misc.cmo utils/config.cmo utils/clflags.cmo
+utils/ccomp.cmx: utils/misc.cmx utils/config.cmx utils/clflags.cmx
+utils/clflags.cmo: utils/config.cmo
+utils/clflags.cmx: utils/config.cmx
+utils/config.cmo:
+utils/config.cmx:
+utils/misc.cmo:
+utils/misc.cmx:
+utils/nativeint.cmo:
+utils/nativeint.cmx:
+utils/tbl.cmo:
+utils/tbl.cmx:
+utils/terminfo.cmo:
+utils/terminfo.cmx:

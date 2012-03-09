@@ -1,0 +1,4 @@
+let (implementation : (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Parsetree.structure) = fun lexfun lexbuf -> yyparse yytables 1 lexfun lexbuf ;;
+let (interface : (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Parsetree.signature) = fun lexfun lexbuf -> yyparse yytables 2 lexfun lexbuf ;;
+let (toplevel_phrase : (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Parsetree.toplevel_phrase) = fun lexfun lexbuf -> yyparse yytables 3 lexfun lexbuf ;;
+let (use_file : (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Parsetree.toplevel_phrase list) = fun lexfun lexbuf -> yyparse yytables 4 lexfun lexbuf ;;

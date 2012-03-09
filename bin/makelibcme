@@ -1,0 +1,17 @@
+STDLIB='stdlib/pervasives.ml stdlib/list.ml stdlib/char.ml stdlib/string.ml stdlib/sort.ml stdlib/array.ml stdlib/hashtbl.ml stdlib/digest.ml stdlib/random.ml stdlib/marshal.ml stdlib/obj.ml stdlib/printf.ml stdlib/sys.ml stdlib/arg.ml stdlib/queue.ml stdlib/callback.ml stdlib/filename.ml stdlib/gc.ml stdlib/map.ml stdlib/set.ml stdlib/stack.ml stdlib/weak.ml stdlib/stream.ml stdlib/format.ml stdlib/genlex.ml stdlib/lexing.ml stdlib/parsing.ml stdlib/printexc.ml'
+
+UNIX='stdlib/unix.ml'
+
+STR='stdlib/str.ml'
+
+for i in $STDLIB
+do
+echo "Analysing: " $i "..."
+./bin/ocamlexcc -I stdlib $i
+echo "DONE"
+done
+
+echo "Analysing extra libs (Unix and Str)"
+./bin/ocamlexcc -I stdlib $UNIX
+./bin/ocamlexcc -I stdlib $STR
+echo "DONE"

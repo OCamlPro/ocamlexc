@@ -1,0 +1,106 @@
+.TH OCAMLEXC 1
+
+.SH NAME
+ocamlexc 1.0 \- An experimental toplevel for the Objective Caml uncaught
+exceptions analyzer.
+
+
+.SH SYNOPSIS
+.B ocamlexc
+[
+.BI \-nopervs
+.BI \-fpvars
+.BI \-I \ lib-dir
+]
+[
+.I filename
+]
+
+
+.SH DESCRIPTION
+
+The
+.BR ocamlexc (1)
+command is an experimental toplevel embedding the Objective Caml
+uncaught exceptions analyzer. This command is called "experimental"
+because it is intended to be used for debug and quick tests
+purposes.
+
+The mechanism on which the analyzer relies does not fit exactly the
+concept of toplevel. Indeed, when using this toplevel, no linking pass
+is done. So types if you type-check a sentence, you will be given its
+type and effect (i.e the set of exceptions that can be raised during
+the evaluation of this sentence). But, in the case where some
+variables are not generalized, they can be instantiated latter and
+then the type will be updated without you see this.
+
+This does not mean that results computed by the analyzer are wrong;
+simply what you see is not obligatorily what you get ;-)
+
+This toplevel does no evaluation. It was mostly designed for tests and
+debug during the development of the analyzer. We provide it in the
+package just for the sake of exhaustivity. PLEASE, use it if you know
+what you're doing.
+
+
+.SH OPTIONS
+
+The following command-line options are recognized by
+.BR ocamlexc (1).
+
+.TP
+.BI \-I \ directory
+Add the given directory to the list of directories searched for
+pre-analyzed files. Directories added with 
+.B \-I
+are searched in the order in which they were given on the command
+line. By default, only the current directory is searched. This means
+that the path to the pre-analyzed files of standard library must be
+explicitly specified if you are not working in it.
+The 'Pervasives.cme' file is searched first in this path. This file
+contains the result of the analysis for basic definitions used by
+Ocaml (I mean, +, -, !, ref, type definitions as 'ref', external
+functions, ...). Basically, these definitions are needed by any
+program written in Ocaml, unless it use only the core language (this
+means no input/output, no arithmetic computations, so approximatively
+the only behavior is ... 'do nothing very interesting'...). It is
+possible to turn off the loading of this 'Pervasives.cme' if needed
+(see below).
+
+.TP
+.B \-nopervs
+This option prevents the system to search for the 'Pervasives.cme'
+file. This can be used, for example when analyzing the 'Pervasives.ml'
+file itself (although this is automatically done by the analyzer if it
+sees that the file it is currently feeded in is called
+'Pervasives.ml'). This feature may be used by the user if he really
+need it. Actually this should not occur very often.
+
+.TP
+.BI \-fpvars
+This option enables the simplification of type expression that is
+performed when using the
+.BR ocamlexcli (1)
+command. Mainly, it attempt to remove information denotated by
+variables universally quantified and appearing only in positive
+occurrence. For more information about this feature, please consult
+the manual page for the
+.BR ocamlexcl (1)
+command.
+
+The toplevel can be given an Objective Caml source file as
+argument. In this case, instead of considering the standard input, it
+will read this file and display the results of analyzing it.
+
+
+.SH SEE ALSO
+.BR ocamlexcc (1),
+.BR ocamlexcl (1),
+.BR ocamlexcli (1),
+.BR ocamlexc (1).
+.br
+.I The Objective Caml user's manual,
+for the general Objective Caml language description.
+.br
+.I Type-based analysis of uncaught exceptions
+by Francois Pessaux and Xavier Leroy - POPL99.

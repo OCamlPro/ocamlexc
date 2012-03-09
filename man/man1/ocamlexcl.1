@@ -1,0 +1,353 @@
+.TH OCAMLEXCL 1
+
+.SH NAME
+ocamlexcl 1.0 \- The Objective Caml second pass for uncaught exceptions
+analyzer (linking pass) without graphical user interface.
+
+
+.SH SYNOPSIS
+.B ocamlexcl
+[
+.BI \-I \ lib-dir
+]
+.I filenames ...
+
+.SH DESCRIPTION
+
+The
+.BR ocamlexcl (1)
+command is the second pass for the Objective Caml uncaught exceptions
+analyzer (linking and displaying pass). This command is invocated with
+the names of all the analyzed files ('.cme' files coming from the
+analysis of '.ml' files) used by the analyzed program. This includes
+the files of the standard library and also the files of the analyzed
+program itself. Files must appear in their order of dependency
+otherwise an error message will be returned. This means that a file
+'foo.cme' depending on a file 'bar.cme' (because 'foo.ml' was
+depending on 'bar.ml') should appear in the command line before
+'bar.cme'. The results of the analysis are displayed in plain text,
+providing the user to access the raw format of these results. This may
+result in a harder way to understand these results. To get a more
+user-friendly display, please use the
+.BR ocamlexcli
+command and consult the related manual page.
+
+
+.SH OPTIONS
+
+The following command-line options are recognized by
+.BR ocamlexcl (1).
+
+.TP
+.BI \-I \ directory
+Add the given directory to the list of directories searched for
+the analyzed files. Directories added with 
+.B \-I
+are searched in the order in which they were given on the command
+line. By default, only the current directory is searched.
+
+
+.SH HOW TO INTERPRET THE OUTPUT
+The result of applying
+.BR ocamlexcl
+on '.cme' files will be displayed as a plain text on the standard
+output. For each file analyzed, the annotated types of the definitions
+it contains will be displayed. This can be thought as if you were
+applying the command
+.BR ocamlc -i
+(to generate an Ocaml source file interface automatically) on each of
+these files, the difference being that types are now annotated by extra
+informations. Each type constructor is now labelled by the set of
+its possible values. The
+.BR ocamlexc
+command is really a low level command, it generates its result
+strongly reflecting the type algebra the analyzer uses. To get a more
+user-friendly and a more pretty way to get results of the analysis,
+please use the
+.BR ocamlexcli
+command.
+For example an expression having the type
+.I "unit[():Pre; `a]"
+stands for an expression of type
+.I unit
+and that can evaluate only into
+.I "()"
+This case is trivial because
+.I "()"
+is the only value of type
+.I unit.
+Each value contained in the set annotating a type constructor is
+labelled y a presence flag
+.I Pre
+or by a presence variable (for example
+.I "$a"
+The tag
+.I Pre
+means that the value is really present in this set. A presence
+variable is used to reflect the sharing of presence between several
+par of a type expression. If such a variable only appears in positive
+occurrence and is universally quantified, then it can be considered as
+the "empty presence" (so, like the "absence").
+
+
+The
+.I "'a"
+appearing at the end of the list containing the values can be
+forgotten. It's indeed a kind of "hook" used to add possible values in
+which the expression could have been evaluated. Because this "hook"
+(row variable) is here not constrained, this means that there is no
+more possible values, and then the set of possible values only
+contains what precedes this "hook". In the idea as presence variables
+appearing only in positive occurrences and universally quantified can
+be considered as a "void presence", row variables appearing only in
+positive occurrences and universally quantified can be considered
+as an empty set of value. Hence they can be ignored.
+
+
+Some other examples of types, with their interpretation follow. For a
+more complete discussion about the framework and the internals of the
+analysis, please read the research article
+.I Type-based analysis of uncaught exceptions
+by Francois Pessaux and Xavier Leroy - POPL99.
+Explanations about the deep meaning of
+each component of a type are outside the scope of this man page. Once
+again, it is recommended to use the
+.BR ocamlexcli
+command instead of
+.BR ocamlexcl
+to get a more understandable output of the results of the analysis.
+
+.I "int[1:Pre; 2:Pre; `a]"
+stands for the type of integer values that can only evaluate into 1 or
+2.
+
+Let's consider the identity function:
+.I let f x = x
+It will have type
+.I "f : 'a -{`a}-> 'a"
+The row between braces in the arrow of the type represent the set of
+exceptions that can possibly be raised during an application of this
+function.
+
+For example, the following function:
+.I let f () = raise Not_found
+has type:
+.I "f : unit[():Pre; `a] -{Not_found:Pre; `b}-> 'a"
+showing that the exception
+.I "Not_found"
+can be raised when 
+.I "f"
+is applied.
+
+The type of the
+.I "raise"
+function, used t raise the exception given to it as argument will
+hence be:
+.I "raise : exn[`a] -{`a}-> 'a"
+showing that the set of exceptions provided as argument will be the
+same as the one that can be raised during an application.
+
+When it turns out to be impossible to compute accurately the set of
+values contained in a basic type (that's to say for types
+.I int, string, char, float
+) the "everything possible" annotation will be used and is represented
+by
+.I "_".
+Hence, a function returning a random integer will have type
+.I "random : : unit[():Pre; `a] -{'b}-> int[_]"
+
+For sum types (enums), and more generally, for type whose signature is
+finite, the
+.I "_"
+annotation is never used. Instead, when the set of value cannot be
+accurately computed, an row enumerating all the possible constructors
+is returned. For example, the type for boolean expressions has a
+finite signature (that is, the number of values of this type is
+finite). Indeed a boolean value is either
+.I true
+either
+.I false
+So the definition of the
+.I bool
+type can be seen as
+.I "type bool = true | false"
+To represent the "everything possible" annotation, the following type
+will be used:
+.I "bool[false:Pre; true:Pre; `a]"
+instead of something of the form:
+.I "bool[_]"
+
+When a constructor has an argument, no presence annotation label
+it. Instead, in the row the values will have an argument that is the
+annotated type representing the set of values that can possibly be
+contained in the argument. This representation goes on recursively,
+depending on the structure of the type definition. If the set of
+values represented by the type of an argument's constructor is "empty",
+then this constructor (this value) must be considered in fact as
+absent. The idea is that something embedding something empty is itself
+empty. Let's consider the following type definition:
+.I "type t = A of int | B"
+The expression
+.I (A 5)
+will have type
+.I "t[A (int[5:Pre; `a]); `b]"
+where it is possible to see that the argument of the constructor
+.I A
+is an integer value that can only be 5. The type
+.I "t[A (int[_]); B:Pre; `a]"
+stands for the type of an expression possibly evaluated into whatever
+value of type
+.I t
+And then,
+.I "t[A (int['a]); `b]"
+is the type of an "empty" value of type
+.I t
+Indeed, the value
+.I "A"
+has an argument that is an empty set of integers, so this whole value
+of type
+.I t
+is "empty".
+
+
+Be careful to the different kinds of variable. In the Objective Caml
+standard type system, on only have "type variables". Now, in the type
+system used by the analyzer, there are 3 kinds of variables :
+.I "'a"
+for type variables
+.I "`a"
+for row variables and
+.I "$a"
+for presence variables.
+
+
+.SH THE BASIC PROCEDURE TO ANALYZE A PROGRAM
+The exception analysis is splitted in two passes. First, each source
+file of the program must be pre-analyzed in a separate way, using the
+.BR ocamlexcc
+command. This generates '.cme' files ('foo.ml' will be analyzed and a
+file called 'foo.cme' will be generated) that contain the partial
+result of the uncaught exceptions analysis. The complete analysis
+results cannot yet be known because they can depend on the results of
+the analysis for the others files. However, once a file has been
+analyzed, so long it does not change there is no need to re-analyze
+it.
+Once all the source files of the program are analyzed, it is possible
+to get the final result of the analysis by applying the "linking"
+pass. This is achieved by using either the
+.BR ocamlexcl
+or
+.BR ocamlexcli
+command. For more details on these command, please consult the
+dedicated man page. These two commands perform basically the same
+thing : merging all the partial results coming from the '.cme' files
+previously generated by
+.BR ocamlexcc
+and displaying the result of the analysis. The first command displays
+this result as text on the standard output. The second provides the
+user a graphical browser, menu-window-mouse-driven. This second way to
+look at the result of the analysis is much more convenient. It
+provides several features to help reading types of the program, by
+allowing folding/unfolding of these types (that can be really be big).
+
+
+.SH ADVANCE USE : HOW TO SPECIFY TYPES FOR EXTERNAL PRIMITIVES
+This section is mainly devoted to advanced users, may be who
+understand the underlying principle of the analysis. We will now
+explain how it is possible to define the type of external
+definition. A good example can be found in the files of the standard
+library, that are provided with the analyzer (mainly in the
+'pervasives.ml' file.
+Basically, you'll have to write the type of the primitive, the same
+way it is done in standard Objective Caml. The only difference is that
+instead of using standard types expressions, you will use "annotated"
+type expression like those given as results by the analyzer. You will
+have to follow the rules explained in the section describing how to
+interpret the results (that is, use of the
+.I "_"
+annotation, enumeration of all constructors in case of a type with a
+finite signature, use of presence annotations, and so on).
+
+The arrow type, supporting the exceptions that can be raised by a
+function during its application is written
+.I "<[...]->"
+instead of simply
+.I "-{}->"
+as it is in the results of the analysis. The reason for this is to
+avoid conflicts in the syntax.
+
+An extension of notation is provided to specify recursive types. You are
+now allowed to write something like :
+.I "external v : 'a <[`a]-> 'a with 'a = int[_] = \N'34'myprimitive\N'34'"
+This allows to propagate sharing between type expressions. In the
+case shown above, the resulting type will be equivalent to
+.I "val v : int[_] -{`a}-> int[_]"
+This way, you can specify the type of a function computing the size of
+a list by :
+.I "external length2 : 'b <[`a]-> int[_] \
+   with 'b = 'a list [[] : Pre ; :: ('a * 'b) ; `b] \
+   = \N'34'my_primitive\N'34'"
+Then, if you ask the analyzer for the type of
+.I "lenght2"
+you will be answered :
+.I "val length2 : \
+   TY0 -{`a}-> int[_] \
+     where TY0 = _'a list[[]:Pre; :: (_'a * TY0); _`b]"
+By the way, you can notice the underscore (
+.I "_"
+) that sometimes can appear in front of the variables. Like in
+Objective Caml, this means that the variable is not generalized, due
+to the standard restriction on value. For more informations about this
+fact, please consult the Objective Caml FAQ and documentation.
+
+The type of tuple is simply the annotated type of each of the components
+of the tuple. For example, the expression
+.I "let x = ((if ... then 1 else 2), true) "
+will have type
+.I "val x : int[1:Pre; 2:Pre; `a] * bool[true:Pre; `b]"
+
+The last extension in the syntax used to specify type expressions is
+the annotation of record types. To specify such a type it is simply
+needed to provide the annotated type of each of the field of the
+record. For example, let's consider the following type declaration:
+.I "type t = { foo : int ; bar : bool }"
+An external value of this type can be defined by
+.I "external v : t[{foo:int[_]; bar:bool[true:Pre; `a] }; `b] = \N'34'my_prim\N'34'"
+
+In the same way, the pre-defined type
+.I "ref"
+for references (that is pointers) can be defined by
+.I "type 'a ref = { mutable contents: 'a }"
+So it is now possible to specify the type of the 3 primitives on this
+type (that is creation of a reference, de-referenciation and
+affectation) by the following definitions:
+.sp
+.I "external ref : 'a <[`a]-> 'a ref [{ contents : 'a }; `b] =\
+\N'34'%makemutable\N'34'"
+.sp
+.I "external (!): 'a ref[{ contents : 'a }; `a] <[`b]-> 'a =\
+\N'34'%field0\N'34'"
+.sp
+.I "external (:=): 'a ref[{ contents : 'a }; `a] <[`b]-> \
+                           'a <[`c]-> \
+                           unit[() :Pre; `d] = \N'34'%setfield0\N'34'"
+
+as it is written in the 'pervasives.ml' file of the standard library.
+
+As a summary, writing such things is only required for definitions
+declared a "external", that means that cannot or are not written in
+the Objective Caml language (because they are primitives, or for other
+reasons).
+
+
+.SH SEE ALSO
+.BR ocamlexcc (1),
+.BR ocamlexcl (1),
+.BR ocamlexcli (1),
+.BR ocamlexc (1).
+.br
+.I The Objective Caml user's manual,
+for the general Objective Caml language description.
+.br
+.I Type-based analysis of uncaught exceptions
+by Francois Pessaux and Xavier Leroy - POPL99.

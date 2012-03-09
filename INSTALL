@@ -1,0 +1,85 @@
+            Installing Ocamlexc 1.0.1 on a Unix machine
+            -------------------------------------------
+
+
+Feb 2002: Initial release.
+Mar 2012: Make it compiling with OCaml 3.12.1 + very minor fix
+
+
+
+
+PREREQUISITES
+
+* The Objective Caml compiler version 2.0 or above
+* The OcamlTk package if you want to be able to use the graphical
+  browser to exploit the results of the analysis. This also means that
+  you need to have Tcl/Tk installed in order to get OcamlTk running.
+
+
+
+INSTALLATION INSTRUCTIONS
+
+0- Let's assume you already have Objective Caml and OcamlTk installed
+and properly set up.
+
+1- Configure the system if needed. From the top directory, edit the
+Makefile. Two variables may need to be changed:
+INSTALLDIR: where to install the software
+OCAMLKLIBDIR: where was installed your version of camltk
+
+NOTE: If you want to compile the software with a particular version of
+the Objective Caml that is installed somewhere else than in the
+regular path, you may also change the variable called BINDIR. In this
+case you should fill it with the path where your compiler is
+installed.
+
+
+2- From the top directory, do:
+
+        make all
+
+This builds the analyser in bytecode mode.
+You can then build the analyser in native code mode by doing:
+
+	make opt
+
+These phases are verbose; you may want to redirect the output to a file:
+
+        make all > log.bytc 2>&1     # in sh
+        make all >& log.bytc         # in csh
+        make opt > log.opt 2>&1      # in sh
+        make opt >& log.opt          # in csh
+
+NOTE: The bytecode and native code versions of the analyser provide
+the same results. The only difference is that the native code version
+will run faster. It's just a matter of how is compiled the software;
+it doesn't affect the results of the analyser itself.
+
+
+3- Install the software
+First become root. Then set default mask to 022 by doing:
+	umask 022
+
+Then, to install the bytecode version of the analyser, do:
+	make install
+
+If needed, to install the native code version of the analyser, just do:
+	make installopt
+
+
+4- Installation is complete. Time to clean up. From the toplevel
+directory, do "make clean".
+
+
+
+COMMON PROBLEMS AND THINGS TO DO:
+
+* The unix library is not completly handled. More accurately, the set
+of exceptions (Unix_error) that can be returned by the provided
+functions is not exact. We should read carefully read the Unix
+specifications to accurately report the exact set for each
+function. This will be done in a later version.
+
+* The printf library causes troubles with the type "format". This type
+is currently interpreted as a string rather than the builtin hack it
+really is. This causes .......
